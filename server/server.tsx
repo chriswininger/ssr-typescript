@@ -6,12 +6,14 @@ import path from 'path'
 import App from '../src/app';
 import { Helmet } from 'react-helmet';
 import { StaticRouter } from 'react-router';
+import MemberRouter from './api/member-router';
 
 const port = 3000;
 const server = express();
 
 const TITLE_PLACE_HOLDER = '<!--SSR-TITLE-TEMPLATE-->';
 
+server.use('/api/members', MemberRouter)
 server.use('/public', express.static('dist/public'));
 
 server.get('*', async (req, res) => {

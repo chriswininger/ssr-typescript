@@ -2,7 +2,7 @@ import React from 'react';
 import Home from './pages/home';
 import About from './pages/about';
 import { Link, Route } from 'react-router-dom';
-import Team from './pages/team';
+import TeamMember from './pages/TeamMember';
 
 export default function App() {
   return (
@@ -18,7 +18,7 @@ export default function App() {
       <switch>
         <Route path='/about' exact={true} component={About} />
 
-        <Route path='/team/:member' exact={true} component={Team} />
+        <Route path='/team/:member' exact={true} component={TeamMember} />
 
         <Route path='/' exact={true} component={Home} />
       </switch>
