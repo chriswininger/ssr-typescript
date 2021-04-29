@@ -12,9 +12,11 @@ const server = express();
 
 const TITLE_PLACE_HOLDER = '<!--SSR-TITLE-TEMPLATE-->';
 
-server.use('/public', express.static('dist'));
+server.use('/public', express.static('dist/public'));
 
 server.get('*', async (req, res) => {
+  console.info('handling request for spa');
+
   const indexFilePath = path.resolve(__dirname, 'public/index.html');
 
   try {
