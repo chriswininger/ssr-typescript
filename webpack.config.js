@@ -3,7 +3,8 @@ const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
 module.exports = function buildWebpackConfiguration(env = {}) {
-  const srcPath = path.resolve(__dirname, 'src');
+  const clientSrcPath = path.resolve(__dirname, 'src');
+  const serverSourcePath = path.resolve(__dirname, 'server');
 
   return {
     target: getTarget(),
@@ -16,6 +17,8 @@ module.exports = function buildWebpackConfiguration(env = {}) {
     resolve: {
       extensions: ['.tsx', '.ts', '.js', '.jsx']
     },
+
+    devtool: env.production ? false : 'eval-sourcemap',
 
     /*
         Very unintuitive https://github.com/webpack/webpack/issues/1599#issuecomment-186841345
@@ -40,7 +43,7 @@ module.exports = function buildWebpackConfiguration(env = {}) {
         {
           test: /\.tsx?$/,
           loader: "ts-loader",
-          include: [srcPath]
+          include: [clientSrcPath, serverSourcePath]
         }
       ]
     }
@@ -57,7 +60,7 @@ module.exports = function buildWebpackConfiguration(env = {}) {
 
   function getEntry() {
     if (isServerBuild()) {
-      return './server/server.ts'
+      return './server/server.tsx'
     }
     else {
       return './src/index.tsx'
@@ -69,7 +72,7 @@ module.exports = function buildWebpackConfiguration(env = {}) {
       return 'server.js';
     }
     else {
-      return 'bundle.js';
+      return 'public/bundle.js';
     }
   }
 

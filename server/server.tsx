@@ -5,21 +5,23 @@ import fs from 'fs/promises';
 import path from 'path'
 import App from '../src/app';
 import { Helmet } from 'react-helmet';
+import { StaticRouter } from 'react-router';
 
 const port = 3000;
 const server = express();
 
 const TITLE_PLACE_HOLDER = '<!--SSR-TITLE-TEMPLATE-->';
 
-server.use(express.static('dist'));
+server.use('/public', express.static('dist'));
 
-server.get('/', async (req, res) => {
+server.get('*', async (req, res) => {
   const indexFilePath = path.resolve(__dirname, 'public/index.html');
 
   try {
     const htmlTemplate = await fs.readFile(indexFilePath, 'utf-8');
 
-    const reactApp = ReactServerDom.renderToString(React.createElement(App));
+    const reactApp = buildReactApp(req);
+
     const helmetContents = Helmet.renderStatic();
     const title = helmetContents.title.toString();
 
@@ -31,7 +33,7 @@ server.get('/', async (req, res) => {
 
     res.send(finalOutput);
   } catch (ex) {
-    console.error(`error generating index html resp: ${ex}`);
+    console.error(ex)
     res.status(500).send('Oops, something went 2020');
   }
 });
@@ -39,3 +41,13 @@ server.get('/', async (req, res) => {
 server.listen(port, () => {
     console.info(`listening on port ${port}`)
 });
+
+function buildReactApp(req): string {
+  const context = {};
+
+  return ReactServerDom.renderToString(
+      <StaticRouter location={req.url} context={context}>
+        <App />
+      </StaticRouter>
+  );
+}
