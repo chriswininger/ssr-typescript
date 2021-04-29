@@ -1,4 +1,4 @@
-RSR Typescript
+React SSR Typescript
 =================
 
 This application demonstrates the use of React Server Side rendering to deliver dynamic page titles and metadata in the

@@ -9,7 +9,7 @@ import { Helmet } from 'react-helmet';
 const port = 3000;
 const server = express();
 
-const TITLE_PLACE_HOLDER = '<!--RSR-TITLE-TEMPLATE-->';
+const TITLE_PLACE_HOLDER = '<!--SSR-TITLE-TEMPLATE-->';
 
 server.use(express.static('dist'));
 

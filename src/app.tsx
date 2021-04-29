@@ -8,7 +8,7 @@ export default function App() {
         <title>Much Dynamic, Much Server</title>
       </Helmet>
       <div>
-        Welcome to RSC
+        Welcome to SSR
       </div>
     </main>);
 }
