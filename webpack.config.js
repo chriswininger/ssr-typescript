@@ -2,6 +2,8 @@ const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
+require('dotenv').config();
+
 module.exports = function buildWebpackConfiguration(env = {}) {
   const clientSrcPath = path.resolve(__dirname, 'src');
   const serverSourcePath = path.resolve(__dirname, 'server');
@@ -35,7 +37,8 @@ module.exports = function buildWebpackConfiguration(env = {}) {
           patterns: [
             { from: 'server/public', to: 'public' }
           ]
-        })
+        }),
+        new webpack.DefinePlugin({'env': JSON.stringify(process.env)}),
     ],
 
     module: {

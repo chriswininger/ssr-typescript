@@ -7,6 +7,8 @@ import App from '../src/app';
 import { Helmet } from 'react-helmet';
 import { StaticRouter } from 'react-router';
 import MemberRouter from './api/member-router';
+import { getByMemberName } from '../src/services/user-info-service';
+import PageTitleMatcher from './page-title-matcher';
 
 const port = 3000;
 const server = express();
@@ -16,6 +18,7 @@ const TITLE_PLACE_HOLDER = '<!--SSR-TITLE-TEMPLATE-->';
 server.use('/api/members', MemberRouter)
 server.use('/public', express.static('dist/public'));
 
+server.use(PageTitleMatcher);
 server.get('*', async (req, res) => {
   console.info('handling request for spa');
 
@@ -27,7 +30,7 @@ server.get('*', async (req, res) => {
     const reactApp = buildReactApp(req);
 
     const helmetContents = Helmet.renderStatic();
-    const title = helmetContents.title.toString();
+    const title = req.pageTitle ? req.pageTitle : helmetContents.title.toString();
 
     let finalOutput = htmlTemplate.replace(TITLE_PLACE_HOLDER, title);
 

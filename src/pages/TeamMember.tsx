@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Helmet } from 'react-helmet';
 import LoadWrapper from '../components/LoadWrapper';
+import { getByMemberName } from '../services/user-info-service';
 
 export default function TeamMember() {
   const { member } = useParams() as { member: string };
@@ -20,9 +21,12 @@ export default function TeamMember() {
 
   return (
     <>
-      <Helmet>
-        <title>{member}</title>
-      </Helmet>
+      {
+        userInfo.userName.length > 0 ? (
+          <Helmet>
+            <title>{`The user known as ${userInfo.userName}`}</title>
+          </Helmet>) : null
+      }
 
       <main>
         <LoadWrapper isLoading={isLoading}>
@@ -47,8 +51,7 @@ export default function TeamMember() {
     try {
       setLoadingState(true);
 
-      const userInfoResp = await fetch(`/api/members/${member}`)
-      const userInfo = await userInfoResp.json();
+      const userInfo = await getByMemberName(member);
 
       setUserInfo(userInfo);
       setLoadingState(false);
