@@ -7,7 +7,7 @@ initial request response.
 The goal is to keep this logic within react. An alternative would simply be to have some logic in the server to deliver
 this.
 
-I am taking a bear bones role your own approach as opposed to using nextjs because it may be more suitable to existing
+I am taking a bear bones roll your own approach as opposed to using nextjs because it may be more suitable to existing
 code bases.
 
 ## Running
